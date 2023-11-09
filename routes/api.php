@@ -8,6 +8,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\BallController;
 use App\Http\Controllers\FrameController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,11 @@ use App\Http\Controllers\DashboardController;
 
 
 Route::group(['prefix' => 'v1'], function () {
+
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('/login', [AuthController::class, 'login']);
+    });
+
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
     });

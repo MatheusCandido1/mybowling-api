@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Profile;
 
 class UserSeeder extends Seeder
 {
@@ -15,10 +16,17 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $user = User::create([
             "name" => "Matheus Carvalho",
             "email" => "matheus@email.com",
             "password" => bcrypt("secret")
         ]);
+
+        $profile = Profile::create([
+            "first_access" => true,
+            "user_id" => 1
+        ]);
+
+        $user->profile()->save($profile);
     }
 }
