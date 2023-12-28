@@ -14,6 +14,10 @@ use App\Http\Requests\Auth\LoginRequest;
 
 class AuthController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
     public function login(LoginRequest $request) {
 
         $user = User::with('profile')->where('email', $request->email)->first();
@@ -39,6 +43,10 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token, $user);
+    }
+
+    public function me() {
+        return response()->json(new LoggedUserResource(auth()->user()));
     }
 
     protected function respondWithToken($token, $user)

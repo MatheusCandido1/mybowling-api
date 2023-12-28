@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api');
+    }
+
     public function store(GameStoreRequest $request) {
         try {
             DB::beginTransaction();
@@ -20,7 +24,7 @@ class GameController extends Controller
             $game = new Game();
             $game->game_date = $request->game_date;
             $game->location_id = $request->location_id;
-            $game->user_id = 1;
+            $game->user_id =auth()->user()->id;
             $game->ball_id = $request->ball_id;
             $game->total_score = 0;
             $game->status = 'IN_PROGRESS';
@@ -46,6 +50,7 @@ class GameController extends Controller
             DB::commit();
 
             return response()->json([
+                'data' => new GameResource($game),
                 'message' => 'Game created'
             ], 201);
 
@@ -72,9 +77,58 @@ class GameController extends Controller
                 ->ofLocation($location_id)
                 ->ofStartDate($start_date)
                 ->ofEndDate($end_date)
+                ->ofLoggedUser()
                 ->where('status', 'COMPLETED')
                 ->orderBy('game_date', 'desc')
                 ->get();
+
+            return GameResource::collection($games);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, $game) {
+        try {
+
+            $existingGame = Game::find($game);
+
+            if(!$existingGame) {
+                throw new \Exception('Game not found');
+            }
+
+            $existingGame->status = $request->status;
+            $existingGame->total_score = $request->total_score;
+            $existingGame->save();
+
+            return response()->json([
+                'message' => 'Game updated'
+            ], 202);
+
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+    public function ongoing() {
+        try {
+            $games = Game::with('frames', 'location', 'ball')
+            ->ofStatus('IN_PROGRESS')
+            ->ofLoggedUser()
+            ->get();
+
+            if (!$games) {
+                return response()->json([
+                    'message' => 'No ongoing game'
+                ], 200);
+            }
 
             return GameResource::collection($games);
 

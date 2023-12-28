@@ -9,6 +9,8 @@ use App\Http\Controllers\BallController;
 use App\Http\Controllers\FrameController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,16 +28,32 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/login', [AuthController::class, 'login']);
+        Route::get('/me', [AuthController::class, 'me']);
+    });
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::patch('/first_access', [UserController::class, 'first_access']);
     });
 
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
     });
 
+    Route::group(['prefix' => 'groups'], function () {
+        Route::post('/invite', [GroupController::class, 'invite']);
+        Route::patch('/invite/{group}', [GroupController::class, 'acceptInvite']);
+        Route::post('/', [GroupController::class, 'store']);
+        Route::get('/', [GroupController::class, 'index']);
+        Route::get('/{group}', [GroupController::class, 'show']);
+        Route::get('/{group}/games', [GroupController::class, 'games']);
+    });
+
     Route::group(['prefix' => 'games'], function () {
+        Route::get('/ongoing', [GameController::class, 'ongoing']);
         Route::get('/', [GameController::class, 'index']);
         Route::post('/', [GameController::class, 'store']);
         Route::get('/{game}', [GameController::class, 'show']);
+        Route::put('/{game}', [GameController::class, 'update']);
     });
 
     Route::group(['prefix' => 'frames'], function () {
@@ -48,5 +66,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'balls'], function () {
         Route::get('/', [BallController::class, 'index']);
+        Route::post('/', [BallController::class, 'store']);
+        Route::put('/{ball}', [BallController::class, 'update']);
     });
 });

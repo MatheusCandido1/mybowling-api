@@ -22,4 +22,8 @@ class Ball extends Model
     {
         return $this->hasMany(Game::class);
     }
+
+    public function scopeOfLoggedUser($query) {
+        return $query->where('user_id', auth()->user()->id);
+    }
 }

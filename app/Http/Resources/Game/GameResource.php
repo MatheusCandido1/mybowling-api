@@ -29,6 +29,11 @@ class GameResource extends JsonResource
                 'weight' => $this->ball->weight,
                 'color' => $this->ball->color,
             ],
+            'user' => [
+                'id'    => $this->user->id,
+                'name'  => $this->user->name,
+                'avatar' => $this->user->avatar,
+            ],
             'frames' => $this->frames
         ];
     }

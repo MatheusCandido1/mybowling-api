@@ -66,11 +66,15 @@ class Game extends Model
         return $query;
     }
 
-    public function scopeLoggedUser($query, $user_id) {
-        return $query->where('user_id', $user_id);
+    public function scopeOfLoggedUser($query) {
+        return $query->where('user_id', auth()->user()->id);
     }
 
     public function scopeOfStatus($query, $status) {
         return $query->where('status', $status);
+    }
+
+    public function group() {
+        return $this->belongsTo(Group::class);
     }
 }

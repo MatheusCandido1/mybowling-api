@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api');
+    }
+
     public function index() {
         try {
-            $games = Game::with('ball')->ofStatus('COMPLETED')->loggedUser(1)->get();
+            $games = Game::with('ball')->ofStatus('COMPLETED')->ofLoggedUser()->get();
 
             $all_time_average = $games->avg('total_score');
             $current_month_average = $games->whereBetween('game_date', [now()->startOfMonth(), now()->endOfMonth()])->avg('total_score');
@@ -25,14 +29,16 @@ class DashboardController extends Controller
                 ];
             })->sortByDesc('total_games')->values()->all();
 
-            $highest_score = $games->max('total_score');
+            $highest_score = $games->max('total_score') ?? 0;
 
             $results = DB::table('frames')
-            ->select('split')
+            ->join('games', 'frames.game_id', '=', 'games.id') // Join the games table
+            ->select('frames.split')
             ->selectRaw('COUNT(*) AS attempted')
-            ->selectRaw('SUM(CASE WHEN points = 10 THEN 1 ELSE 0 END) AS converted')
-            ->where('is_split', true)
-            ->groupBy('split')
+            ->selectRaw('SUM(CASE WHEN frames.points = 10 THEN 1 ELSE 0 END) AS converted')
+            ->where('frames.is_split', true)
+            ->where('games.user_id', auth()->user()->id)
+            ->groupBy('frames.split')
             ->get();
             // Organize the results into the desired format
             $splits_converted = [];
