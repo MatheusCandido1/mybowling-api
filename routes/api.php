@@ -28,6 +28,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/register', [AuthController::class, 'register']);
         Route::get('/me', [AuthController::class, 'me']);
     });
 
@@ -68,5 +69,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/', [BallController::class, 'index']);
         Route::post('/', [BallController::class, 'store']);
         Route::put('/{ball}', [BallController::class, 'update']);
+        Route::delete('/{ball}', [BallController::class, 'destroy']);
     });
 });

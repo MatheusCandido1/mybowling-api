@@ -10,7 +10,7 @@ class Game extends Model
     use HasFactory;
 
     protected $fillable = [
-        'game_date', 'total_score', 'ball_id', 'location_id', 'user_id', 'status',
+        'game_date', 'total_score', 'ball_id', 'location_id', 'group_id', 'user_id', 'status',
     ];
 
     public function user()

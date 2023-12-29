@@ -24,9 +24,10 @@ class GameController extends Controller
             $game = new Game();
             $game->game_date = $request->game_date;
             $game->location_id = $request->location_id;
-            $game->user_id =auth()->user()->id;
-            $game->ball_id = $request->ball_id;
+            $game->user_id = auth()->user()->id;
+            $game->ball_id = $request->ball_id ?? null;
             $game->total_score = 0;
+            $game->group_id = $request->group_id ?? null;
             $game->status = 'IN_PROGRESS';
 
             $game->save();

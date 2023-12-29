@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\Auth\LoggedUserResource;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class AuthController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     public function login(LoginRequest $request) {
@@ -43,6 +44,49 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token, $user);
+    }
+
+    public function register(RegisterRequest $request) {
+        try {
+
+            $email = $request->email;
+
+            $existingUser = User::where('email', $email)->first();
+
+            if($existingUser) {
+                return response()->json([
+                    'error' => 'Email already registered',
+                ], 400);
+            }
+
+            $user = new User();
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+
+            $user->save();
+
+            $profile = $user->profile()->create([
+                "first_access" => true,
+                "user_id" => $user->id
+            ]);
+
+            $credentials = request(['email', 'password']);
+
+            $token = auth('api')->attempt($credentials);
+
+            if (!$token) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            return $this->respondWithToken($token, $user);
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+
     }
 
     public function me() {
