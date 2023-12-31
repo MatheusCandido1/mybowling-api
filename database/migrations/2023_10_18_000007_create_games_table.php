@@ -18,9 +18,9 @@ class CreateGamesTable extends Migration
             $table->date('game_date');
             $table->integer('total_score');
             $table->unsignedBigInteger('location_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('set null');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->unsignedBigInteger('ball_id')->nullable();
-            $table->foreign('ball_id')->references('id')->on('balls')->onDelete('set null');
+            $table->foreign('ball_id')->references('id')->on('balls')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('group_id')->nullable();

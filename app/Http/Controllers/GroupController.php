@@ -79,9 +79,15 @@ class GroupController extends Controller
             if($isMember) {
                 $isMember->pivot->touch();
 
-                return response()->json([
-                    'message' => 'User is already a member'
-                ], 400);
+                if($isMember->pivot->is_active) {
+                    return response()->json([
+                        'message' => 'User is already a member'
+                    ], 400);
+                } else {
+                    return response()->json([
+                        'message' => 'Invite already sent'
+                    ], 400);
+                }
             }
 
             $group->members()->attach($user->id, [
@@ -114,8 +120,14 @@ class GroupController extends Controller
                     'name' => $group->name,
                     'description' => $group->description,
                     'cover' => $group->cover,
-                    'owner_id' => $group->owner_id,
+                    'owner' => [
+                        'id' => $group->owner->id,
+                        'name' => $group->owner->name,
+                        'avatar' => $group->owner->avatar,
+                    ],
+                    'owner_email' => $group->owner->email,
                     'limit_date' => $group->limit_date,
+                    'is_active' => $group->members()->where('user_id', auth()->user()->id)->first()->pivot->is_active,
                     'members' => $group->members->map(function ($member) {
                         return [
                             'id' => $member->id,
@@ -137,6 +149,41 @@ class GroupController extends Controller
         }
     }
 
+    public function removeUser(Group $group, User $user) {
+        try {
+            DB::beginTransaction();
+
+            $admin = Auth::user();
+
+            if($admin->id !== $group->owner_id) {
+                return response()->json([
+                    'message' => 'Only the group owner can remove members'
+                ], 403);
+            }
+
+            if($user->id === $group->owner_id) {
+                return response()->json([
+                    'message' => 'The group owner cannot be removed'
+                ], 403);
+            }
+
+            // Remove user from group
+            $group->members()->detach($user->id);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'User removed from group'
+            ], 200);
+
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function show(Group $group) {
         try {
 
@@ -150,9 +197,11 @@ class GroupController extends Controller
                 return [
                     'id' => $member->id,
                     'name' => $member->name,
+                    'email' => $member->email,
                     'avatar' => $member->avatar,
                     'role' => $member->id === $group->owner_id ? 'Admin' : 'Member',
-                    'is_active' => $member->pivot->is_active
+                    'is_active' => $member->pivot->is_active,
+                    'joined_at' => $member->pivot->joined_at,
                 ];
             });
 
@@ -213,7 +262,7 @@ class GroupController extends Controller
         }
     }
 
-    public function acceptInvite(Group $group) {
+    public function reply(Group $group, Request $request) {
         try {
             DB::beginTransaction();
 
@@ -223,17 +272,25 @@ class GroupController extends Controller
             $isInvited = $group->members()->where('user_id', $user->id)->first();
 
 
-            if (!$isInvited || !$isInvited->is_active) {
+
+            if (!$isInvited || $isInvited->is_active) {
                 return response()->json([
                     'message' => $isInvited ? 'Invite already accepted' : 'Invite not found'
                 ], 404);
             }
 
-            $group->members()->updateExistingPivot($user->id, [
-                'is_active' => true,
-                'joined_at' => now()
-            ]);
-
+            if($request->reply === 'decline') {
+                $group->members()->detach($user->id);
+                DB::commit();
+                return response()->json([
+                    'message' => 'Invite declined'
+                ], 200);
+            } else {
+                $group->members()->updateExistingPivot($user->id, [
+                    'is_active' => true,
+                    'joined_at' => now()
+                ]);
+            }
 
             DB::commit();
 

@@ -27,6 +27,7 @@ class BallController extends Controller
             $ball->name = $request->name;
             $ball->weight = $request->weight;
             $ball->color = $request->color;
+            $ball->type = $request->type ?? 'CUSTOM';
 
             $ball->save();
 

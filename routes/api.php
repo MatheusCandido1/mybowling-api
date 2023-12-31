@@ -41,10 +41,11 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::group(['prefix' => 'groups'], function () {
+        Route::patch('/invite/{group}', [GroupController::class, 'reply']);
         Route::post('/invite', [GroupController::class, 'invite']);
-        Route::patch('/invite/{group}', [GroupController::class, 'acceptInvite']);
         Route::post('/', [GroupController::class, 'store']);
         Route::get('/', [GroupController::class, 'index']);
+        Route::delete('/{group}/user/{user}', [GroupController::class, 'removeUser']);
         Route::get('/{group}', [GroupController::class, 'show']);
         Route::get('/{group}/games', [GroupController::class, 'games']);
     });

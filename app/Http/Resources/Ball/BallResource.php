@@ -19,6 +19,7 @@ class BallResource extends JsonResource
             'name' => $this->name,
             'weight' => $this->weight,
             'color' => $this->color,
+            'type' => $this->type,
         ];
     }
 }

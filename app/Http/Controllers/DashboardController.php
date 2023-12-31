@@ -23,11 +23,11 @@ class DashboardController extends Controller
 
             $most_used_balls = $games->groupBy('ball_id')->map(function ($item, $key) {
                 return [
-                    'ball' => $item->first()->ball ?? [
-                        'id' => null,
-                        'name' => 'House Ball',
-                        'weight' =>  '10',
-                        'color' => '#ef3855',
+                    'ball' => [
+                        'id' => $item->first()->ball->id,
+                        'name' => $item->first()->ball->name,
+                        'weight' => $item->first()->ball->weight,
+                        'color' => $item->first()->ball->color,
                     ],
                     'total_score' => $item->sum('total_score'),
                     'total_games' => $item->count(),

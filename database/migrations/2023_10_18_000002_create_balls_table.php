@@ -18,6 +18,7 @@ class CreateBallsTable extends Migration
             $table->string('name');
             $table->string('weight');
             $table->string('color');
+            $table->string('type');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

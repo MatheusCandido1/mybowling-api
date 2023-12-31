@@ -43,7 +43,7 @@ class GameSeeder extends Seeder
         ]);
 
         Game::create([
-            "game_date" => new Carbon('2023-11-18'),
+            "game_date" => new Carbon('2023-12-18'),
             "total_score" => 127,
             "user_id" => 1,
             "location_id" => 3,
@@ -52,7 +52,7 @@ class GameSeeder extends Seeder
         ]);
 
         Game::create([
-            "game_date" => new Carbon('2023-11-18'),
+            "game_date" => new Carbon('2023-12-18'),
             "total_score" => 138,
             "user_id" => 1,
             "location_id" => 2,

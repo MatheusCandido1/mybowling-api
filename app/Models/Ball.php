@@ -10,7 +10,7 @@ class Ball extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'weight', 'color', 'user_id',
+        'name', 'weight', 'color', 'type','user_id',
     ];
 
     public function user()

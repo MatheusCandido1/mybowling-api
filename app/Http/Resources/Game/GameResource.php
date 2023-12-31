@@ -23,19 +23,12 @@ class GameResource extends JsonResource
                 'id'    => $this->location->id,
                 'name'  => $this->location->name,
             ],
-            'ball' => $this->ball
-                ? [
-                    'id'    => $this->ball->id,
-                    'name'  => $this->ball->name,
-                    'weight' => $this->ball->weight,
-                    'color' => $this->ball->color,
-                ]
-                : [
-                    'id' => null,
-                    'name' => 'House Ball',
-                    'weight' => 10,
-                    'color' => '#ef3855',
-                ],
+            'ball' => [
+                'id'    => $this->ball->id,
+                'name'  => $this->ball->name,
+                'weight' => $this->ball->weight,
+                'color' => $this->ball->color,
+            ],
             'user' => [
                 'id'    => $this->user->id,
                 'name'  => $this->user->name,

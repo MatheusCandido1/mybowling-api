@@ -72,6 +72,14 @@ class AuthController extends Controller
                 "user_id" => $user->id
             ]);
 
+            $ball = $user->balls()->create([
+                "name" => "House Ball",
+                "weight" => "10",
+                "color" => "#e5013b",
+                "type" => "DEFAULT",
+                "user_id" => $user->id
+            ]);
+
             $credentials = request(['email', 'password']);
 
             $token = auth('api')->attempt($credentials);
