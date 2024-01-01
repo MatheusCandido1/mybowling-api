@@ -39,7 +39,7 @@ class GameController extends Controller
                 $frame->first_shot = null;
                 $frame->second_shot = null;
                 $frame->third_shot = null;
-                $frame->split = null;
+                $frame->pins = null;
                 $frame->is_split = null;
                 $frame->points = 0;
                 $frame->score = 0;

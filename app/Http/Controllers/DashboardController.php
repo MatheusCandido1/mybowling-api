@@ -38,18 +38,18 @@ class DashboardController extends Controller
 
             $results = DB::table('frames')
             ->join('games', 'frames.game_id', '=', 'games.id') // Join the games table
-            ->select('frames.split')
+            ->select('frames.pins')
             ->selectRaw('COUNT(*) AS attempted')
             ->selectRaw('SUM(CASE WHEN frames.points = 10 THEN 1 ELSE 0 END) AS converted')
             ->where('frames.is_split', true)
             ->where('games.user_id', auth()->user()->id)
-            ->groupBy('frames.split')
+            ->groupBy('frames.pins')
             ->get();
             // Organize the results into the desired format
             $splits_converted = [];
             foreach ($results as $row) {
                 $splits_converted[] = [
-                    'split' => $row->split,
+                    'pins' => $row->pins,
                     'attempted' => (int)$row->attempted,
                     'converted' => (int)$row->converted,
                     'rate' => $row->attempted > 0 ? round($row->converted / $row->attempted * 100) : 0,

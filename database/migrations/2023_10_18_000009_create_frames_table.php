@@ -19,7 +19,7 @@ class CreateFramesTable extends Migration
             $table->integer('first_shot')->nullable();
             $table->integer('second_shot')->nullable();
             $table->integer('third_shot')->nullable();
-            $table->string('split')->nullable();
+            $table->string('pins')->nullable();
             $table->integer('is_split')->nullable();
             $table->integer('points');
             $table->integer('score');
