@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -98,6 +100,12 @@ class AuthController extends Controller
     }
 
     public function me() {
+        $user = auth()->user();
+
+        return response()->json([
+            'user' => new LoggedUserResource($user)
+        ], 200);
+
         return response()->json(new LoggedUserResource(auth()->user()));
     }
 

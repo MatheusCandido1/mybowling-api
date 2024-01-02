@@ -33,7 +33,9 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::group(['prefix' => 'users'], function () {
-        Route::patch('/first_access', [UserController::class, 'first_access']);
+        Route::put('/', [UserController::class, 'update']);
+        Route::patch('/first_access', [UserController::class, 'firstAaccess']);
+        Route::post('/avatar', [UserController::class, 'avatar']);
     });
 
     Route::group(['prefix' => 'dashboard'], function () {
