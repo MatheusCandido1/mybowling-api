@@ -62,7 +62,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function getAvatarAttribute($value)
     {
-        return  Storage::disk('s3')->url($value);
+        if(!$value) {
+            return null;
+        }
+        return Storage::disk('s3')->url($value);
     }
 
     public function games()

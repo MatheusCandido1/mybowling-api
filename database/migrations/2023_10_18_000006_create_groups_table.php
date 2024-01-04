@@ -17,10 +17,8 @@ class CreateGroupsTable extends Migration
             $table->id();
             $table->text('name');
             $table->text('description')->nullable();
-            $table->text('cover')->nullable();
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->date('limit_date')->nullable();
             $table->timestamps();
         });
     }

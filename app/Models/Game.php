@@ -66,6 +66,13 @@ class Game extends Model
         return $query;
     }
 
+    public function scopeOfUser($query, $user_id) {
+        if($user_id) {
+            return $query->where('user_id', $user_id);
+        }
+        return $query;
+    }
+
     public function scopeOfLoggedUser($query) {
         return $query->where('user_id', auth()->user()->id);
     }

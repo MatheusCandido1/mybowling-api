@@ -10,7 +10,7 @@ class Group extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'cover', 'owner_id', 'limit_date'
+        'name', 'description', 'owner_id'
     ];
 
     public function owner()

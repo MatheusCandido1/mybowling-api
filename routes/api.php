@@ -36,6 +36,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('/', [UserController::class, 'update']);
         Route::patch('/first_access', [UserController::class, 'firstAaccess']);
         Route::post('/avatar', [UserController::class, 'avatar']);
+        Route::put('/password', [UserController::class, 'password']);
     });
 
     Route::group(['prefix' => 'dashboard'], function () {
@@ -47,7 +48,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/invite', [GroupController::class, 'invite']);
         Route::post('/', [GroupController::class, 'store']);
         Route::get('/', [GroupController::class, 'index']);
+        Route::put('/{group}', [GroupController::class, 'update']);
         Route::delete('/{group}/user/{user}', [GroupController::class, 'removeUser']);
+        Route::delete('/{group}', [GroupController::class, 'destroy']);
         Route::get('/{group}', [GroupController::class, 'show']);
         Route::get('/{group}/games', [GroupController::class, 'games']);
     });

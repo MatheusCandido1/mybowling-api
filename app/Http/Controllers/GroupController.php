@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\Game;
 
 use App\Http\Requests\Group\GroupStoreRequest;
+use App\Http\Requests\Group\GroupUpdateRequest;
 
 use App\Http\Resources\Group\GroupResource;
 use App\Http\Resources\Game\GameResource;
@@ -28,9 +29,7 @@ class GroupController extends Controller
             $group = new Group();
             $group->name = $request->name;
             $group->description = $request->description ?? null;
-            $group->cover = $request->cover ?? null;
             $group->owner_id = auth()->user()->id;
-            $group->limit_date = $request->limit_date ?? null;
             $group->save();
 
             $group->members()->attach(auth()->user()->id, [
@@ -109,6 +108,64 @@ class GroupController extends Controller
         }
     }
 
+    public function destroy(Group $group) {
+        try {
+            DB::beginTransaction();
+
+            $admin = Auth::user();
+
+            if($admin->id !== $group->owner_id) {
+                return response()->json([
+                    'message' => 'Only the group owner can delete the group'
+                ], 403);
+            }
+
+            $group->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Group deleted'
+            ], 200);
+
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function update(GroupUpdateRequest $request, Group $group) {
+        try {
+            DB::beginTransaction();
+
+            $group = Group::find($group->id);
+
+            if(!$group) {
+                return response()->json([
+                    'message' => 'Group not found'
+                ], 404);
+            }
+
+            $group->name = $request->name;
+            $group->description = $request->description ?? null;
+            $group->save();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Group updated'
+            ], 200);
+
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function index() {
         try {
             $groups = auth()->user()->groups()->get();
@@ -119,14 +176,12 @@ class GroupController extends Controller
                     'id' => $group->id,
                     'name' => $group->name,
                     'description' => $group->description,
-                    'cover' => $group->cover,
                     'owner' => [
                         'id' => $group->owner->id,
                         'name' => $group->owner->name,
                         'avatar' => $group->owner->avatar,
                     ],
                     'owner_email' => $group->owner->email,
-                    'limit_date' => $group->limit_date,
                     'is_active' => $group->members()->where('user_id', auth()->user()->id)->first()->pivot->is_active,
                     'members' => $group->members->map(function ($member) {
                         return [
@@ -153,13 +208,18 @@ class GroupController extends Controller
         try {
             DB::beginTransaction();
 
-            $admin = Auth::user();
+            $loggedUser = auth()->user();
 
-            if($admin->id !== $group->owner_id) {
+            if($loggedUser->id === $user->id || $loggedUser->id === $group->owner_id) {
+                $group->members()->detach($user->id);
+
+                DB::commit();
+
                 return response()->json([
-                    'message' => 'Only the group owner can remove members'
-                ], 403);
+                    'message' => 'User removed from group'
+                ], 200);
             }
+
 
             if($user->id === $group->owner_id) {
                 return response()->json([
@@ -167,15 +227,12 @@ class GroupController extends Controller
                 ], 403);
             }
 
-            // Remove user from group
-            $group->members()->detach($user->id);
 
-            DB::commit();
-
-            return response()->json([
-                'message' => 'User removed from group'
-            ], 200);
-
+            if($loggedUser->id !== $group->owner_id) {
+                return response()->json([
+                    'message' => 'Only the group owner can remove members'
+                ], 403);
+            }
         } catch(\Exception $e) {
             DB::rollBack();
             return response()->json([
@@ -204,6 +261,12 @@ class GroupController extends Controller
                     'joined_at' => $member->pivot->joined_at,
                 ];
             });
+
+            $details['locations'] = $group->games()
+            ->selectRaw('locations.id as id, locations.name as name')
+            ->join('locations', 'games.location_id', '=', 'locations.id')
+            ->groupBy('id', 'name')
+            ->get();
 
             $details['standings'] = $group->games()
             ->selectRaw('users.id as user_id, users.name as user_name, COUNT(*) AS total_games, AVG(total_score) AS average_score')
@@ -237,16 +300,16 @@ class GroupController extends Controller
     public function games(Group $group, Request $request) {
         try {
 
-            $ball_id = $request->query('ball');
             $location_id = $request->query('location');
             $start_date = $request->query('start_date');
             $end_date = $request->query('end_date');
+            $user_id = $request->query('user');
 
             $games = Game::with('location', 'ball', 'user')
-            ->ofBall($ball_id)
             ->ofLocation($location_id)
             ->ofStartDate($start_date)
             ->ofEndDate($end_date)
+            ->ofUser($user_id)
             ->where('status', 'COMPLETED')
             ->where('group_id', $group->id)
             ->orderBy('game_date', 'desc')
