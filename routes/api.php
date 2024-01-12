@@ -65,6 +65,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'frames'], function () {
         Route::post('/', [FrameController::class, 'store']);
+        Route::put('/{frame}', [FrameController::class, 'update']);
     });
 
     Route::group(['prefix' => 'locations'], function () {

@@ -21,8 +21,8 @@ class CreateFramesTable extends Migration
             $table->integer('third_shot')->nullable();
             $table->string('pins')->nullable();
             $table->integer('is_split')->nullable();
-            $table->integer('points');
-            $table->integer('score');
+            $table->integer('points')->nullable();;
+            $table->integer('score')->nullable();;
             $table->string('status');
             $table->unsignedBigInteger('game_id')->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');

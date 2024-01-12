@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
+use App\Models\Frame;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Resources\Game\GameResource;
 
 use App\Http\Requests\Game\GameStoreRequest;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
+
 
 class GameController extends Controller
 {
@@ -34,7 +38,7 @@ class GameController extends Controller
 
             // Create 10 frames for the game
             for ($i = 1; $i <= 10; $i++) {
-                $frame = new \App\Models\Frame();
+                $frame = new Frame();
                 $frame->frame_number = $i;
                 $frame->first_shot = null;
                 $frame->second_shot = null;
@@ -98,12 +102,47 @@ class GameController extends Controller
             $existingGame = Game::find($game);
 
             if(!$existingGame) {
-                throw new \Exception('Game not found');
+                return response()->json([
+                    'error' => 'Game not found'
+                ], 404);
             }
+
 
             $existingGame->status = $request->status;
             $existingGame->total_score = $request->total_score;
             $existingGame->save();
+
+
+            // Update frames
+            $framesArray = $request->input('frames');
+
+
+            foreach($framesArray as $frameData) {
+                $existingFrame = Frame::find($frameData['id']);
+
+                if(!$existingFrame) {
+                    return response()->json([
+                        'error' => 'Frame not found'
+                    ], 404);
+                }
+
+                $existingFrame->first_shot = $frameData['first_shot'];
+                $existingFrame->second_shot = $frameData['second_shot'];
+                $existingFrame->third_shot = $frameData['third_shot'];
+                $existingFrame->pins = $frameData['pins'];
+                $existingFrame->is_split = $frameData['is_split'];
+                $existingFrame->points = $frameData['points'];
+                $existingFrame->score = $frameData['score'];
+                $existingFrame->status = $frameData['status'];
+                $existingFrame->save();
+            }
+
+
+
+
+
+
+
 
             return response()->json([
                 'message' => 'Game updated'
@@ -120,6 +159,7 @@ class GameController extends Controller
 
     public function ongoing() {
         try {
+
             $games = Game::with('frames', 'location', 'ball')
             ->ofStatus('IN_PROGRESS')
             ->ofLoggedUser()

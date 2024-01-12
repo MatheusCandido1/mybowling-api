@@ -151,7 +151,7 @@ class FrameSeeder extends Seeder
             "first_shot" => 7,
             "second_shot" => 0,
             "is_split" => 1,
-            "split" => '6-7-10',
+            "pins" => '6-7-10',
             "points" => 7,
             "score" => 84,
             "status" => "completed"
@@ -162,7 +162,7 @@ class FrameSeeder extends Seeder
             "first_shot" => 6,
             "second_shot" => 2,
             "is_split" => 1,
-            "split" => '4-6-7-10',
+            "pins" => '4-6-7-10',
             "points" => 8,
             "score" => 92,
             "status" => "completed"
@@ -434,7 +434,7 @@ class FrameSeeder extends Seeder
             "first_shot" => 6,
             "second_shot" => 2,
             "is_split" => 1,
-            "split" => '3-6-7-10',
+            "pins" => '3-6-7-10',
             "points" => 8,
             "score" => 52,
             "status" => "completed"
@@ -476,7 +476,7 @@ class FrameSeeder extends Seeder
             "first_shot" => 8,
             "second_shot" => 2,
             "is_split" => 1,
-            "split" => '7-9',
+            "pins" => '7-9',
             "points" => 10,
             "score" => 101,
             "status" => "completed"
@@ -570,7 +570,7 @@ class FrameSeeder extends Seeder
             "first_shot" => 7,
             "second_shot" => 0,
             "is_split" => 1,
-            "split" => '6-7-10',
+            "pins" => '6-7-10',
             "points" => 7,
             "score" => 117,
             "status" => "completed"
@@ -600,7 +600,7 @@ class FrameSeeder extends Seeder
             "first_shot" => 8,
             "second_shot" => 1,
             "is_split" => 1,
-            "split" => '7-9',
+            "pins" => '7-9',
             "points" => 9,
             "score" => 153,
             "status" => "completed"
