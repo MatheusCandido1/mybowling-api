@@ -30,18 +30,18 @@ class UserSeeder extends Seeder
 
         $user->profile()->save($profile);
 
-        $user2 = User::create([
-            "name" => "Gabriel Santos",
-            "email" => "gabriel@email.com",
+
+        $user3 = User::create([
+            "name" => "Teste User",
+            "email" => "test@email.com",
             "password" => bcrypt("secret"),
-            "avatar" => 'https://github.com/gabmaxs.png'
+            "avatar" => ""
         ]);
 
-        $profile2 = Profile::create([
-            "first_access" => true,
-            "user_id" => 1
+        $profile3 = Profile::create([
+            "first_access" => true
         ]);
 
-        $user2->profile()->save($profile2);
+        $user3->profile()->save($profile3);
     }
 }

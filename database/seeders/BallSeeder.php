@@ -37,5 +37,13 @@ class BallSeeder extends Seeder
             "type" => "CUSTOM",
             "user_id" => 1
         ]);
+
+        Ball::create([
+            "name" => "House Ball",
+            "weight" => "10",
+            "color" => "#e5013b",
+            "type" => "DEFAULT",
+            "user_id" => 2
+        ]);
     }
 }

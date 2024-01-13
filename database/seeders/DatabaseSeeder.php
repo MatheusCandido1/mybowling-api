@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LocationSeeder::class,
             BallSeeder::class,
-            GameSeeder::class,
-            FrameSeeder::class,
+            //GameSeeder::class,
+            //FrameSeeder::class,
         ]);
     }
 }
