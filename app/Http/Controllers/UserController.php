@@ -11,6 +11,11 @@ use App\Http\Requests\User\UserUpdatePasswordRequest;
 
 use App\Http\Resources\Auth\LoggedUserResource;
 
+use App\Notifications\GroupInviteNotification;
+
+use Relative\LaravelExpoPushNotifications\ExpoPushNotifications;
+use Relative\LaravelExpoPushNotifications\PushNotification;
+
 class UserController extends Controller
 {
     public function __construct() {
@@ -80,6 +85,41 @@ class UserController extends Controller
             return response()->json([
                 'data' => new LoggedUserResource($user),
                 'message' => 'User updated'
+            ], 202);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function push(Request $request) {
+        try {
+            $user = auth()->user();
+
+            $user->notify(new GroupInviteNotification());
+
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function pushToken(Request $request) {
+        try {
+
+            $user = auth()->user();
+
+            $token = $request->expo_push_token;
+            $user->pushTokens()->firstOrCreate(
+                ['token' => $token],
+            );
+
+            return response()->json([
+                'message' => 'Push token updated'
             ], 202);
 
         } catch(\Exception $e) {
