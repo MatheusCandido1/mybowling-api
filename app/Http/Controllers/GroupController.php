@@ -169,7 +169,6 @@ class GroupController extends Controller
     public function index() {
         try {
             $groups = auth()->user()->groups()->get();
-            // Get a list of every member of each group (only avatar and name)
 
             $groups = $groups->map(function ($group) {
                 return [

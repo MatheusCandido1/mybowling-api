@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,13 +35,19 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'users'], function () {
         Route::put('/', [UserController::class, 'update']);
+        Route::patch('/push_token', [UserController::class, 'pushToken']);
         Route::patch('/first_access', [UserController::class, 'firstAaccess']);
         Route::post('/avatar', [UserController::class, 'avatar']);
         Route::put('/password', [UserController::class, 'password']);
+        Route::post('/push', [UserController::class, 'push']);
     });
 
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [NotificationController::class, 'index']);
     });
 
     Route::group(['prefix' => 'groups'], function () {

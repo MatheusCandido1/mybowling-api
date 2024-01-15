@@ -23,7 +23,7 @@ class FrameController extends Controller
             $frame->second_shot = $request->second_shot;
             $frame->third_shot = $request->third_shot;
             $frame->pins = $request->pins;
-            $frame->is_split = $request->isSplit;
+            $frame->is_split = $request->is_split;
             $frame->points = $request->points;
             $frame->score = $request->score;
             $frame->status = $request->status;

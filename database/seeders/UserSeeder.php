@@ -20,19 +20,18 @@ class UserSeeder extends Seeder
             "name" => "Matheus Carvalho",
             "email" => "matheus@email.com",
             "password" => bcrypt("secret"),
-            "avatar" => 'https://github.com/matheuscandido1.png'
+            "avatar" => 'avatars/FgsLS8RnmbEbUtoI3kWsHR7CsEJ9yeD8rfHNXDxM.jpg'
         ]);
 
         $profile = Profile::create([
-            "first_access" => true,
-            "user_id" => 1
+            "first_access" => true
         ]);
 
         $user->profile()->save($profile);
 
 
         $user3 = User::create([
-            "name" => "Teste User",
+            "name" => "Test User",
             "email" => "test@email.com",
             "password" => bcrypt("secret"),
             "avatar" => ""

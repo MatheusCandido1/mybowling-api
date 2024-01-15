@@ -9,10 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\Storage;
+use Relative\LaravelExpoPushNotifications\Traits\HasPushTokens;
+
+
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasPushTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'avatar'
+        'avatar',
     ];
 
     /**

@@ -19,6 +19,7 @@ class LoggedUserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'avatar' => $this->avatar ?? null,
+            'push_token' => $this->pushTokens()->first()->token ?? null,
             'profile' => [
                 'first_access' => $this->profile->first_access
             ]
