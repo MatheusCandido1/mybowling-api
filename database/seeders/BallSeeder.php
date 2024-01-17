@@ -31,9 +31,9 @@ class BallSeeder extends Seeder
         ]);
 
         Ball::create([
-            "name" => "Blue Hammer",
+            "name" => "T-Zone Patriot Blaze",
             "weight" => "15",
-            "color" => "#20b3de",
+            "color" => "#781114",
             "type" => "CUSTOM",
             "user_id" => 1
         ]);
