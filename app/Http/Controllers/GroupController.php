@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\Game;
 
+use App\Notifications\GroupInviteNotification;
+use App\Models\Notification as NotificationModel;
+
 use App\Http\Requests\Group\GroupStoreRequest;
 use App\Http\Requests\Group\GroupUpdateRequest;
 
@@ -94,7 +97,25 @@ class GroupController extends Controller
                 'joined_at' => null
             ]);
 
+
+            $user->notify(new GroupInviteNotification($group->name, $group->owner->name));
+
+            $latestNotification = DB::table('expo_push_notifications')
+            ->select('id', 'notification','notifiable_id','error', 'status')
+            ->where('notifiable_id', $user->id)
+            ->latest()
+            ->first();
+
+            NotificationModel::create([
+                'author' => $group->owner->name,
+                'type' => 'GROUP_INVITE',
+                'user_id' => $user->id,
+                'expo_push_notifications_id' => $latestNotification->id,
+                'read_at' => null
+            ]);
+
             DB::commit();
+
 
             return response()->json([
                 'message' => 'Invite sent'
@@ -260,6 +281,17 @@ class GroupController extends Controller
                     'joined_at' => $member->pivot->joined_at,
                 ];
             });
+
+            // Find the admin in the collection
+            $admin = $details['members']->where('role', 'Admin')->first();
+
+            // Remove the admin from the collection
+            $details['members'] = $details['members']->reject(function ($member) {
+                return $member['role'] === 'Admin';
+            });
+
+            // Prepend the admin to the beginning of the collection
+            $details['members'] = $details['members']->prepend($admin);
 
             $details['locations'] = $group->games()
             ->selectRaw('locations.id as id, locations.name as name')

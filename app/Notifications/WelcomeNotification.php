@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Relative\LaravelExpoPushNotifications\ExpoPushNotifications;
 use Relative\LaravelExpoPushNotifications\PushNotification;
 
-class GroupInviteNotification extends Notification
+class WelcomeNotification extends Notification
 {
     use Queueable;
 
@@ -16,10 +16,9 @@ class GroupInviteNotification extends Notification
      *
      * @return void
      */
-    public function __construct($group_name, $owner_name)
+    public function __construct()
     {
-        $this->group_name = $group_name;
-        $this->owner_name = $owner_name;
+        //
     }
 
     /**
@@ -42,7 +41,9 @@ class GroupInviteNotification extends Notification
     public function toExpoPushNotification($notifiable)
     {
         return (new PushNotification)
-            ->title('New Group Invitation 🎉')
-            ->body("Exciting news! You've been invited by {$this->owner_name} to join {$this->group_name}. Check out the invite on the Groups page!");
+            ->title('Welcome to MyBowling App 🎳')
+            ->body("We're thrilled to welcome you to MyBowling, where the excitement of the lanes meets the convenience of your device! Get ready for a striking experience as you embark on a journey filled with fun, challenges, and friendly competition.");
     }
+
+
 }

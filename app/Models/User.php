@@ -48,6 +48,10 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'notifications_not_read'
+    ];
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -93,6 +97,16 @@ class User extends Authenticatable implements JWTSubject
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_user', 'user_id', 'group_id')->withTimestamps();
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function getNotificationsNotReadAttribute()
+    {
+        return $this->notifications()->whereNull('read_at')->count();
     }
 
 
