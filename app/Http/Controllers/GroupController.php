@@ -109,7 +109,6 @@ class GroupController extends Controller
             NotificationModel::create([
                 'author' => $group->owner->name,
                 'type' => 'GROUP_INVITE',
-                'support_id' => null,
                 'user_id' => $user->id,
                 'expo_push_notifications_id' => $latestNotification->id,
                 'read_at' => null

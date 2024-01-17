@@ -36,24 +36,21 @@ class UserController extends Controller
 
             $user->notify(new WelcomeNotification());
 
-            /*
-
             $latestNotification = DB::table('expo_push_notifications')
             ->select('id', 'notification','notifiable_id','error', 'status')
             ->where('notifiable_id', auth()->user()->id)
             ->latest()
             ->first();
 
-            NotificationModel::create([
-                'author' => 'MyBowling Team',
-                'type' => 'WELCOME',
-                'support_id' => null,
-                'user_id' => $latestNotification->notifiable_id,
-                'expo_push_notifications_id' => $latestNotification->id,
-                'read_at' => null
-            ]); */
-
-
+            if($latestNotification) {
+                NotificationModel::create([
+                    'author' => 'MyBowling Team',
+                    'type' => 'WELCOME',
+                    'user_id' => $latestNotification->notifiable_id,
+                    'expo_push_notifications_id' => $latestNotification->id,
+                    'read_at' => null
+                ]);
+            }
 
             return response()->json([
                 'data' => new LoggedUserResource($user),

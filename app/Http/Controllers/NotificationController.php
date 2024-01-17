@@ -38,7 +38,7 @@ class NotificationController extends Controller
     public function index() {
 
         $notifications = DB::table('notifications as n')
-        ->select('n.id as id', 'n.user_id as user_id', 'n.read_at', 'epn.notification', 'n.type', 'n.author', 'n.support_id', 'n.created_at')
+        ->select('n.id as id', 'n.user_id as user_id', 'n.read_at', 'epn.notification', 'n.type', 'n.author', 'n.created_at')
         ->join('expo_push_notifications as epn', 'n.expo_push_notifications_id', '=', 'epn.id')
         ->where('notifiable_id', auth()->user()->id)
         ->orderBy('n.created_at', 'desc')
