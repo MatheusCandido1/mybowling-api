@@ -39,7 +39,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::patch('/first_access', [UserController::class, 'firstAaccess']);
         Route::post('/avatar', [UserController::class, 'avatar']);
         Route::put('/password', [UserController::class, 'password']);
-        Route::post('/push', [UserController::class, 'push']);
     });
 
     Route::group(['prefix' => 'dashboard'], function () {
@@ -48,6 +47,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [NotificationController::class, 'index']);
+        Route::patch('/{notification}', [NotificationController::class, 'toggleRead']);
     });
 
     Route::group(['prefix' => 'groups'], function () {
