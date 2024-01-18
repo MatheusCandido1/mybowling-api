@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
     });
+    Route::group(['prefix' => 'pdfs'], function () {
+        Route::get('/game/{game}', [PdfController::class, 'generateGame']);
+    });
 
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [NotificationController::class, 'index']);
@@ -68,6 +72,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/', [GameController::class, 'store']);
         Route::get('/{game}', [GameController::class, 'show']);
         Route::put('/{game}', [GameController::class, 'update']);
+        Route::delete('/{game}', [GameController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'frames'], function () {

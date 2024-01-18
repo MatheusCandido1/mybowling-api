@@ -16,7 +16,7 @@ class FrameSeeder extends Seeder
     {
         // Game 1
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 1,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -25,7 +25,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 2,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -34,7 +34,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 3,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -43,7 +43,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 4,
             "first_shot" => 0,
             "second_shot" => 9,
@@ -52,7 +52,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 5,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -61,7 +61,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 6,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -70,7 +70,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 7,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -79,7 +79,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 8,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -88,7 +88,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 9,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -97,7 +97,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 1,
+            "game_id" => 7,
             "frame_number" => 10,
             "first_shot" => 10,
             "second_shot" => 10,
@@ -109,7 +109,7 @@ class FrameSeeder extends Seeder
 
         // Game 2
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 1,
             "first_shot" => 9,
             "second_shot" => 1,
@@ -118,7 +118,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 2,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -127,7 +127,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 3,
             "first_shot" => 9,
             "second_shot" => 1,
@@ -136,7 +136,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 4,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -146,7 +146,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 5,
             "first_shot" => 7,
             "second_shot" => 0,
@@ -157,7 +157,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 6,
             "first_shot" => 6,
             "second_shot" => 2,
@@ -169,7 +169,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 7,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -179,7 +179,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 8,
             "first_shot" => 8,
             "second_shot" => 2,
@@ -189,7 +189,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 9,
             "first_shot" => 0,
             "second_shot" => 9,
@@ -198,7 +198,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 2,
+            "game_id" => 8,
             "frame_number" => 10,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -209,7 +209,7 @@ class FrameSeeder extends Seeder
 
         // Game 3
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 1,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -218,7 +218,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 2,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -227,7 +227,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 3,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -236,7 +236,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 4,
             "first_shot" => 5,
             "second_shot" => 5,
@@ -245,7 +245,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 5,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -254,7 +254,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 6,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -263,7 +263,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 7,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -272,7 +272,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 8,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -281,7 +281,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 9,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -291,7 +291,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 3,
+            "game_id" => 8,
             "frame_number" => 10,
             "first_shot" => 9,
             "second_shot" => 1,
@@ -303,7 +303,7 @@ class FrameSeeder extends Seeder
 
         // Game 4
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 1,
             "first_shot" => 7,
             "second_shot" => 0,
@@ -312,7 +312,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 2,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -321,7 +321,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 3,
             "first_shot" => 1,
             "second_shot" => 8,
@@ -330,7 +330,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 4,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -339,7 +339,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 5,
             "first_shot" => 7,
             "second_shot" => 3,
@@ -348,7 +348,7 @@ class FrameSeeder extends Seeder
             "status" => "completed"
         ]);
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 6,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -358,7 +358,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 7,
             "first_shot" => 0,
             "second_shot" => 8,
@@ -368,7 +368,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 8,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -378,7 +378,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 9,
             "first_shot" => 8,
             "second_shot" => 2,
@@ -388,7 +388,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 4,
+            "game_id" => 9,
             "frame_number" => 10,
             "first_shot" => 9,
             "second_shot" => 0,
@@ -399,7 +399,7 @@ class FrameSeeder extends Seeder
 
         // Game 5
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 1,
             "first_shot" => 8,
             "second_shot" => 0,
@@ -409,7 +409,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 2,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -419,7 +419,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 3,
             "first_shot" => 9,
             "second_shot" => 1,
@@ -429,7 +429,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 4,
             "first_shot" => 6,
             "second_shot" => 2,
@@ -441,7 +441,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 5,
             "first_shot" => 7,
             "second_shot" => 1,
@@ -451,7 +451,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 6,
             "first_shot" => 10,
             "second_shot" => 0,
@@ -461,7 +461,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 7,
             "first_shot" => 6,
             "second_shot" => 1,
@@ -471,7 +471,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 8,
             "first_shot" => 8,
             "second_shot" => 2,
@@ -483,7 +483,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 9,
             "first_shot" => 7,
             "second_shot" => 3,
@@ -493,7 +493,7 @@ class FrameSeeder extends Seeder
         ]);
 
         Frame::create([
-            "game_id" => 5,
+            "game_id" => 10,
             "frame_number" => 10,
             "first_shot" => 7,
             "second_shot" => 3,

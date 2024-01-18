@@ -68,10 +68,33 @@ class GameController extends Controller
 
     }
 
+    public function destroy(Game $game) {
+        try {
+
+            $user = auth()->user();
+
+            if($game->user_id != $user->id) {
+                return response()->json([
+                    'error' => 'You are not allowed to delete this game'
+                ], 403);
+            }
+
+            $game->delete();
+
+            return response()->json([
+                'message' => 'Game deleted'
+            ], 202);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function index(Request $request)
     {
         try {
-
             $ball_id = $request->query('ball');
             $location_id = $request->query('location');
             $start_date = $request->query('start_date');
@@ -85,9 +108,15 @@ class GameController extends Controller
                 ->ofLoggedUser()
                 ->where('status', 'COMPLETED')
                 ->orderBy('game_date', 'desc')
-                ->get();
+                ->paginate(4);
 
-            return GameResource::collection($games);
+
+            return GameResource::collection($games)->additional([
+                'pagination' => [
+                    'current_page' => $games->currentPage(),
+                    'total_pages' => $games->lastPage(),
+                ],
+            ]);
 
         } catch(\Exception $e) {
             return response()->json([
@@ -136,13 +165,6 @@ class GameController extends Controller
                 $existingFrame->status = $frameData['status'];
                 $existingFrame->save();
             }
-
-
-
-
-
-
-
 
             return response()->json([
                 'message' => 'Game updated'
