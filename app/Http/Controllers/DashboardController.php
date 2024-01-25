@@ -36,6 +36,8 @@ class DashboardController extends Controller
 
             $highest_score = $games->max('total_score') ?? 0;
 
+            $highest_score_this_month = $games->whereBetween('game_date', [now()->startOfMonth(), now()->endOfMonth()])->max('total_score') ?? 0;
+
             $results = DB::table('frames')
             ->join('games', 'frames.game_id', '=', 'games.id') // Join the games table
             ->select('frames.pins')
@@ -68,6 +70,7 @@ class DashboardController extends Controller
                 'most_used_balls' => $most_used_balls,
                 'highest_score' => $highest_score,
                 'splits_converted' => $splits_converted,
+                'highest_score_this_month' => $highest_score_this_month,
             ];
 
             return response()->json([
