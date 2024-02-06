@@ -44,7 +44,9 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
+        Route::get('/{year}/{month}', [DashboardController::class, 'monthly']);
     });
+
     Route::group(['prefix' => 'pdfs'], function () {
         Route::get('/game/{game}', [PdfController::class, 'generateGame']);
     });

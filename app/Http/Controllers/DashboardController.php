@@ -5,12 +5,42 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Game;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function __construct() {
         $this->middleware('auth:api');
+    }
+
+    public function monthly($year, $month) {
+        try {
+
+            $games = Game::with('ball')
+                ->ofStatus('COMPLETED')
+                ->ofLoggedUser()
+                ->whereMonth('game_date', $month)
+                ->whereYear('game_date', $year)
+                ->get();
+
+            $games = $games->sortBy('game_date')->map(function ($game) {
+                return [
+                    'id' => $game->id,
+                    'game_date' => $game->game_date,
+                    'total_score' => $game->total_score,
+                ];
+            })->values()->all();
+
+            return response()->json([
+                'data' => $games
+            ], 200);
+
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function index() {
@@ -84,6 +114,7 @@ class DashboardController extends Controller
             })->values()->all();
 
 
+
             $response = [
                 'total_games' => $games->count(),
                 'all_time_average' => ceil($all_time_average),
@@ -96,7 +127,7 @@ class DashboardController extends Controller
                 'splits_converted' => $splits_converted,
                 'highest_score_this_month' => $highest_score_this_month,
                 'average_per_month' => $average_per_month,
-                'most_recent_games' => $most_recent_games,
+                'most_recent_games' => $most_recent_games
             ];
 
             return response()->json([
