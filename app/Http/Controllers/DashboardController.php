@@ -19,7 +19,10 @@ class DashboardController extends Controller
 
             $all_time_average = $games->avg('total_score');
             $current_month_average = $games->whereBetween('game_date', [now()->startOfMonth(), now()->endOfMonth()])->avg('total_score');
+            $current_month_games = $games->whereBetween('game_date', [now()->startOfMonth(), now()->endOfMonth()])->count();
+
             $last_month_average = $games->whereBetween('game_date', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])->avg('total_score');
+            $last_month_games = $games->whereBetween('game_date', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
 
             $most_used_balls = $games->groupBy('ball_id')->map(function ($item, $key) {
                 return [
@@ -62,15 +65,38 @@ class DashboardController extends Controller
                 return $b['rate'] - $a['rate'];
             });
 
+            $today = now();  // Assuming today's date
+            $sixMonthsAgo = now()->subMonths(6);
+
+            $average_per_month = DB::table('games')
+            ->whereBetween('game_date', [$sixMonthsAgo, $today])
+            ->groupBy(DB::raw('DATE_FORMAT(game_date, "%b %Y")'))
+            ->select(DB::raw('DATE_FORMAT(game_date, "%b %Y") as month_year'), DB::raw('AVG(total_score) as average'))
+            ->orderBy(DB::raw('MIN(game_date)'), 'asc')
+            ->get();
+
+            $most_recent_games = $games->sortByDesc('game_date')->take(3)->map(function ($game) {
+                return [
+                    'id' => $game->id,
+                    'game_date' => $game->game_date,
+                    'total_score' => $game->total_score,
+                ];
+            })->values()->all();
+
+
             $response = [
                 'total_games' => $games->count(),
                 'all_time_average' => ceil($all_time_average),
                 'current_month_average' => ceil($current_month_average),
+                'current_month_games' => $current_month_games,
                 'last_month_average' => ceil($last_month_average),
+                'last_month_games' => $last_month_games,
                 'most_used_balls' => $most_used_balls,
                 'highest_score' => $highest_score,
                 'splits_converted' => $splits_converted,
                 'highest_score_this_month' => $highest_score_this_month,
+                'average_per_month' => $average_per_month,
+                'most_recent_games' => $most_recent_games,
             ];
 
             return response()->json([

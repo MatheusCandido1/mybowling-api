@@ -136,34 +136,38 @@ class GameController extends Controller
                 ], 404);
             }
 
+            if($request->game_date) $existingGame->game_date = $request->game_date;
+            if($request->location_id) $existingGame->location_id = $request->location_id;
+            if($request->ball_id) $existingGame->ball_id = $request->ball_id;
+            if($request->group_id) $existingGame->group_id = $request->group_id;
+            if($request->status) $existingGame->status = $request->status;
+            if($request->total_score) $existingGame->total_score = $request->total_score;
 
-            $existingGame->status = $request->status;
-            $existingGame->total_score = $request->total_score;
             $existingGame->save();
 
 
             // Update frames
             $framesArray = $request->input('frames');
+                if($framesArray) {
+                foreach($framesArray as $frameData) {
+                    $existingFrame = Frame::find($frameData['id']);
 
+                    if(!$existingFrame) {
+                        return response()->json([
+                            'error' => 'Frame not found'
+                        ], 404);
+                    }
 
-            foreach($framesArray as $frameData) {
-                $existingFrame = Frame::find($frameData['id']);
-
-                if(!$existingFrame) {
-                    return response()->json([
-                        'error' => 'Frame not found'
-                    ], 404);
+                    $existingFrame->first_shot = $frameData['first_shot'];
+                    $existingFrame->second_shot = $frameData['second_shot'];
+                    $existingFrame->third_shot = $frameData['third_shot'];
+                    $existingFrame->pins = $frameData['pins'];
+                    $existingFrame->is_split = $frameData['is_split'];
+                    $existingFrame->points = $frameData['points'];
+                    $existingFrame->score = $frameData['score'];
+                    $existingFrame->status = $frameData['status'];
+                    $existingFrame->save();
                 }
-
-                $existingFrame->first_shot = $frameData['first_shot'];
-                $existingFrame->second_shot = $frameData['second_shot'];
-                $existingFrame->third_shot = $frameData['third_shot'];
-                $existingFrame->pins = $frameData['pins'];
-                $existingFrame->is_split = $frameData['is_split'];
-                $existingFrame->points = $frameData['points'];
-                $existingFrame->score = $frameData['score'];
-                $existingFrame->status = $frameData['status'];
-                $existingFrame->save();
             }
 
             return response()->json([
