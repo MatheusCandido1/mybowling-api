@@ -109,5 +109,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->notifications()->whereNull('read_at')->count();
     }
 
+    public function resetPassword()
+    {
+        return $this->hasOne(ResetPassword::class);
+    }
+
 
 }

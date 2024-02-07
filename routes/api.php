@@ -32,6 +32,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
         Route::get('/me', [AuthController::class, 'me']);
+        Route::post('/forgot_password', [AuthController::class, 'forgotPassword']);
+        Route::post('/validate_password_code', [AuthController::class, 'validatePassworCode']);
+        Route::put('/reset_password', [AuthController::class, 'resetPassword']);
+
     });
 
     Route::group(['prefix' => 'users'], function () {
