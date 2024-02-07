@@ -35,6 +35,7 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::group(['prefix' => 'users'], function () {
+        Route::delete('/', [UserController::class, 'destroy']);
         Route::put('/', [UserController::class, 'update']);
         Route::patch('/push_token', [UserController::class, 'pushToken']);
         Route::patch('/first_access', [UserController::class, 'firstAaccess']);

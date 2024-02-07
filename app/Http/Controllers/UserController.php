@@ -64,6 +64,24 @@ class UserController extends Controller
         }
     }
 
+    public function destroy() {
+        try {
+
+            $user = auth()->user();
+
+            $user->delete();
+
+            return response()->json([
+                'message' => 'User deleted'
+            ], 202);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function password(Request $request) {
         try {
 
