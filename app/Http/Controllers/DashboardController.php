@@ -23,6 +23,9 @@ class DashboardController extends Controller
                 ->whereYear('game_date', $year)
                 ->get();
 
+            $count = $games->count();
+            $average = $games->avg('total_score');
+
             $games = $games->sortBy('game_date')->map(function ($game) {
                 return [
                     'id' => $game->id,
@@ -31,8 +34,18 @@ class DashboardController extends Controller
                 ];
             })->values()->all();
 
+
+
+            $data = [
+                'games' => $games,
+                'total_games' => $count,
+                'average' => ceil($average),
+            ];
+
+
+
             return response()->json([
-                'data' => $games
+                'data' => $data
             ], 200);
 
 
@@ -113,6 +126,13 @@ class DashboardController extends Controller
                 ];
             })->values()->all();
 
+            $gamesToday = $games->where('game_date', now()->toDateString());
+
+            $today = [
+                'total_games' => $gamesToday->count(),
+                'average' => ceil($gamesToday->avg('total_score')),
+            ];
+
 
 
             $response = [
@@ -127,7 +147,8 @@ class DashboardController extends Controller
                 'splits_converted' => $splits_converted,
                 'highest_score_this_month' => $highest_score_this_month,
                 'average_per_month' => $average_per_month,
-                'most_recent_games' => $most_recent_games
+                'most_recent_games' => $most_recent_games,
+                'games_today' => $today,
             ];
 
             return response()->json([
