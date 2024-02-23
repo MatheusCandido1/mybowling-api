@@ -28,6 +28,9 @@ class FrameController extends Controller
             $frame->score = $request->score;
             $frame->status = $request->status;
 
+            $game = Game::find($frame->game_id);
+            $game->total_score = $frame->score;
+
             $frame->save();
 
             DB::commit();
