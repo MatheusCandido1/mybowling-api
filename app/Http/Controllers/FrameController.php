@@ -30,6 +30,7 @@ class FrameController extends Controller
 
             $game = Game::find($frame->game_id);
             $game->total_score = $frame->score;
+            $game->save();
 
             $frame->save();
 
