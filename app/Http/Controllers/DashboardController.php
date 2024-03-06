@@ -61,11 +61,11 @@ class DashboardController extends Controller
             $games = Game::with('ball')->ofStatus('COMPLETED')->ofLoggedUser()->get();
 
             $all_time_average = $games->avg('total_score');
-            $current_month_average = $games->whereBetween('game_date', [now()->startOfMonth(), now()->endOfMonth()])->avg('total_score');
-            $current_month_games = $games->whereBetween('game_date', [now()->startOfMonth(), now()->endOfMonth()])->count();
+            $current_month_average = $games->whereBetween('game_date', [now()->startOfMonth()->toDateString(), now()->endOfMonth()->toDateString()])->avg('total_score');
+            $current_month_games = $games->whereBetween('game_date', [now()->startOfMonth()->toDateString(), now()->endOfMonth()->toDateString()])->count();
 
-            $last_month_average = $games->whereBetween('game_date', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])->avg('total_score');
-            $last_month_games = $games->whereBetween('game_date', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
+            $last_month_average = $games->whereBetween('game_date', [now()->subMonth()->startOfMonth()->toDateString(), now()->subMonth()->endOfMonth()->toDateString()])->avg('total_score');
+            $last_month_games = $games->whereBetween('game_date', [now()->subMonth()->startOfMonth()->toDateString(), now()->subMonth()->endOfMonth()->toDateString()])->count();
 
             $most_used_balls = $games->groupBy('ball_id')->map(function ($item, $key) {
                 return [
@@ -82,7 +82,7 @@ class DashboardController extends Controller
 
             $highest_score = $games->max('total_score') ?? 0;
 
-            $highest_score_this_month = $games->whereBetween('game_date', [now()->startOfMonth(), now()->endOfMonth()])->max('total_score') ?? 0;
+            $highest_score_this_month = $games->whereBetween('game_date', [now()->startOfMonth()->toDateString(), now()->endOfMonth()->toDateString()])->max('total_score') ?? 0;
 
             $results = DB::table('frames')
             ->join('games', 'frames.game_id', '=', 'games.id') // Join the games table
