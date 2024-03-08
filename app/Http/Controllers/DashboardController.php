@@ -13,6 +13,47 @@ class DashboardController extends Controller
         $this->middleware('auth:api');
     }
 
+    public function weekly($week) {
+        try {
+
+            $games = Game::with('ball')
+                ->ofStatus('COMPLETED')
+                ->ofLoggedUser()
+                ->whereBetween('game_date', [
+                    Carbon::now()->startOfWeek()->week($week),
+                    Carbon::now()->startOfWeek()->week($week)->endOfWeek()
+                ])
+                ->get();
+
+            $count = $games->count();
+            $average = $games->avg('total_score');
+
+            $games = $games->sortBy('game_date')->map(function ($game) {
+                return [
+                    'id' => $game->id,
+                    'game_date' => $game->game_date,
+                    'total_score' => $game->total_score,
+                ];
+            })->values()->all();
+
+            $data = [
+                'games' => $games,
+                'total_games' => $count,
+                'average' => ceil($average),
+            ];
+
+            return response()->json([
+                'data' => $data
+            ], 200);
+
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function monthly($year, $month) {
         try {
 
@@ -132,8 +173,6 @@ class DashboardController extends Controller
                 'total_games' => $gamesToday->count(),
                 'average' => ceil($gamesToday->avg('total_score')),
             ];
-
-
 
             $response = [
                 'total_games' => $games->count(),
