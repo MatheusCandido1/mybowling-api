@@ -49,10 +49,10 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index']);
-        #Route::get('monthly/{year}/{month}', [DashboardController::class, 'monthly']);
-        Route::get('/{year}/{month}', [DashboardController::class, 'monthly']);
-        Route::get('weekly/{week}', [DashboardController::class, 'weekly']);
-        Route::get('yearly/{year}', [DashboardController::class, 'yearly']);
+        Route::get('/monthly/{year}/{month}', [DashboardController::class, 'monthly']);
+        #Route::get('/{year}/{month}', [DashboardController::class, 'monthly']);
+        Route::get('/weekly/{week}', [DashboardController::class, 'weekly']);
+        Route::get('/yearly/{year}', [DashboardController::class, 'yearly']);
     });
 
     Route::group(['prefix' => 'pdfs'], function () {

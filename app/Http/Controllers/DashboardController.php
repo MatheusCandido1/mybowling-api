@@ -54,6 +54,43 @@ class DashboardController extends Controller
         }
     }
 
+    public function yearly($year) {
+        try {
+
+            // Calculate Average per Month
+            $games = Game::selectRaw('MONTH(game_date) as month, CEIL(AVG(total_score)) as average_score') // Select the month and average score
+                ->ofStatus('COMPLETED')
+                ->ofLoggedUser()
+                ->whereYear('game_date', $year)
+                ->groupBy(DB::raw('MONTH(game_date)')) // Group by month
+                ->get();
+
+
+            $count = Game::ofStatus('COMPLETED')
+            ->ofLoggedUser()
+            ->whereYear('game_date', $year)
+            ->get()
+            ->count();
+
+            $average = $games->avg('average_score');
+
+            $data = [
+                'games' => $games,
+                'total_games' => $count,
+                'average' => ceil($average),
+            ];
+
+            return response()->json([
+                'data' => $data
+            ], 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function monthly($year, $month) {
         try {
 
@@ -82,9 +119,6 @@ class DashboardController extends Controller
                 'total_games' => $count,
                 'average' => ceil($average),
             ];
-
-
-
             return response()->json([
                 'data' => $data
             ], 200);
