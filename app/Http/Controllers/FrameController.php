@@ -28,6 +28,11 @@ class FrameController extends Controller
             $frame->score = $request->score;
             $frame->status = $request->status;
 
+            if($request->has('pins2') && $request->has('is_split2') && $frame->frame_number == 10) {
+                $frame->pins2 = $request->pins2;
+                $frame->is_split2 = $request->is_split2;
+            }
+
             $game = Game::find($frame->game_id);
             $game->total_score = $frame->score;
             $game->save();

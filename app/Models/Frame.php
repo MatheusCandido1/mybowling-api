@@ -10,7 +10,7 @@ class Frame extends Model
     use HasFactory;
 
     protected $fillable = [
-        'frame_number', 'first_shot', 'second_shot','third_shot','is_split','points','status', 'pins','score','game_id'
+        'frame_number', 'first_shot', 'second_shot','third_shot','is_split','points','status', 'pins','score','game_id', 'pins2', 'is_split2'
     ];
 
     public function game()
