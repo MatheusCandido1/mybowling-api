@@ -13,6 +13,12 @@ class DashboardController extends Controller
         $this->middleware('auth:api');
     }
 
+    public function version() {
+        return response()->json([
+            'version' => '1.0.16'
+        ], 200);
+    }
+
     public function weekly($week) {
         try {
 

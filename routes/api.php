@@ -52,6 +52,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/monthly/{year}/{month}', [DashboardController::class, 'monthly']);
         Route::get('/weekly/{week}', [DashboardController::class, 'weekly']);
         Route::get('/yearly/{year}', [DashboardController::class, 'yearly']);
+        Route::get('/version', [DashboardController::class, 'version']);
     });
 
     Route::group(['prefix' => 'pdfs'], function () {
