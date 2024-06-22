@@ -28,6 +28,8 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . auth()->user()->id,
+            'city' => 'required',
+            'state' => 'required',
         ];
     }
 
@@ -48,6 +50,8 @@ class UserUpdateRequest extends FormRequest
             'email.required' => 'Email is required',
             'email.unique' => 'Email already registered',
             'email.email' => 'Email is invalid',
+            'city.required' => 'City is required',
+            'state.required' => 'State is required',
         ];
     }
 }

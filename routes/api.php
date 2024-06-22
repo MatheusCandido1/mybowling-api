@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\RankingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/weekly/{week}', [DashboardController::class, 'weekly']);
         Route::get('/yearly/{year}', [DashboardController::class, 'yearly']);
         Route::get('/version', [DashboardController::class, 'version']);
+    });
+
+    Route::group(['prefix' => 'rankings'], function () {
+        Route::get('/', [RankingController::class, 'index']);
     });
 
     Route::group(['prefix' => 'pdfs'], function () {

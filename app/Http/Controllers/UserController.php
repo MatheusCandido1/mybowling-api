@@ -120,6 +120,10 @@ class UserController extends Controller
 
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->profile->city = $request->city;
+            $user->profile->state = $request->state;
+            $user->profile->save();
+
             $user->save();
 
             return response()->json([
