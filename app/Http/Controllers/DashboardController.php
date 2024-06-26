@@ -15,7 +15,7 @@ class DashboardController extends Controller
 
     public function version() {
         return response()->json([
-            'version' => '1.0.17'
+            'version' => '1.0.18'
         ], 200);
     }
 
