@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCityAndStateToProfilesTable extends Migration
+class AddCityAndStateToLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddCityAndStateToProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->string('city')->nullable()->after('first_access');
-            $table->string('state')->nullable()->after('first_access');
+        Schema::table('locations', function (Blueprint $table) {
+            $table->string('city')->nullable()->after('name');
+            $table->string('state')->nullable()->after('name');
         });
     }
 
@@ -26,7 +26,7 @@ class AddCityAndStateToProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::table('profiles', function (Blueprint $table) {
+        Schema::table('locations', function (Blueprint $table) {
             $table->dropColumn(['city', 'state']);
         });
     }
