@@ -67,6 +67,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [NotificationController::class, 'index']);
         Route::patch('/{notification}', [NotificationController::class, 'toggleRead']);
+        Route::post('/', [NotificationController::class, 'store']);
     });
 
     Route::group(['prefix' => 'groups'], function () {

@@ -44,7 +44,7 @@ class UserController extends Controller
 
             if($latestNotification) {
                 NotificationModel::create([
-                    'author' => 'MyBowling Team',
+                    'author' => 'SplitMate Team',
                     'type' => 'WELCOME',
                     'user_id' => $latestNotification->notifiable_id,
                     'expo_push_notifications_id' => $latestNotification->id,

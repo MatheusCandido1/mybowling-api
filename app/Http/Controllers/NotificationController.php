@@ -12,10 +12,51 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Auth\LoggedUserResource;
 
+use App\Notifications\GeneralMessageNotification;
+use App\Models\Notification as NotificationModel;
+
 class NotificationController extends Controller
 {
     public function __construct() {
         $this->middleware('auth:api');
+    }
+
+    public function store(Request $request) {
+        try {
+
+            $user = User::find(1);
+
+            $user->notify(new GeneralMessageNotification($request->title, $request->message));
+
+            $latestNotification = DB::table('expo_push_notifications')
+            ->select('id', 'notification','notifiable_id','error', 'status')
+            ->where('notifiable_id', $user->id)
+            ->latest()
+            ->first();
+
+            NotificationModel::create([
+                'author' => '"SplitMate Team"',
+                'type' => 'GENERAL_MESSAGE',
+                'user_id' => $user->id,
+                'expo_push_notifications_id' => $latestNotification->id,
+                'read_at' => null
+            ]);
+
+            $latestNotification = DB::table('expo_push_notifications')
+            ->select('id', 'notification','notifiable_id','error', 'status')
+            ->where('notifiable_id', $user->id)
+            ->latest()
+            ->first();
+
+            return response()->json([
+                'data' => 'Notification sent',
+            ], 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error_message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function toggleRead(Notification $notification) {
