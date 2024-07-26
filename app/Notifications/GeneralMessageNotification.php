@@ -11,6 +11,9 @@ class GeneralMessageNotification extends Notification
 {
     use Queueable;
 
+    public $message;
+    public $title;
+
     /**
      * Create a new notification instance.
      *
@@ -32,13 +35,7 @@ class GeneralMessageNotification extends Notification
     {
         return [ExpoPushNotifications::class];
     }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
+§
     public function toExpoPushNotification($notifiable)
     {
         return (new PushNotification)

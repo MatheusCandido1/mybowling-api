@@ -98,6 +98,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'locations'], function () {
         Route::get('/', [LocationController::class, 'index']);
+        Route::post('/', [LocationController::class, 'store']);
     });
 
     Route::group(['prefix' => 'balls'], function () {
