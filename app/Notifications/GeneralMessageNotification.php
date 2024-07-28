@@ -35,7 +35,7 @@ class GeneralMessageNotification extends Notification
     {
         return [ExpoPushNotifications::class];
     }
-§
+
     public function toExpoPushNotification($notifiable)
     {
         return (new PushNotification)
