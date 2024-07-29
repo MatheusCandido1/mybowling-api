@@ -24,7 +24,7 @@ class NotificationController extends Controller
     public function store(Request $request) {
         try {
 
-            $user = User::find(1);
+            $user = User::find($request->user_id);
 
             $user->notify(new GeneralMessageNotification($request->title, $request->message));
 
