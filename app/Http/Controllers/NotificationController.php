@@ -26,25 +26,34 @@ class NotificationController extends Controller
 
             $user = User::find($request->user_id);
 
-            $user->notify(new GeneralMessageNotification($request->title, $request->message));
+            if (!$user) {
+                return response()->json([
+                    'error_message' => 'User not found',
+                ], 404);
+            } else {
+                $user->notify(new GeneralMessageNotification($request->title, $request->message));
 
-            $latestNotification = DB::table('expo_push_notifications')
-            ->select('id', 'notification','notifiable_id','error', 'status')
-            ->where('notifiable_id', $user->id)
-            ->latest()
-            ->first();
+                $latestNotification = DB::table('expo_push_notifications')
+                ->select('id', 'notification','notifiable_id','error', 'status')
+                ->where('notifiable_id', $user->id)
+                ->latest()
+                ->first();
 
-            NotificationModel::create([
-                'author' => 'SplitMate Team',
-                'type' => 'GENERAL_MESSAGE',
-                'user_id' => $user->id,
-                'expo_push_notifications_id' => $latestNotification->id,
-                'read_at' => null
-            ]);
+                NotificationModel::create([
+                    'author' => 'SplitMate Team',
+                    'type' => 'GENERAL_MESSAGE',
+                    'user_id' => $user->id,
+                    'expo_push_notifications_id' => $latestNotification->id,
+                    'read_at' => null
+                ]);
 
-            return response()->json([
-                'data' => 'Notification sent',
-            ], 200);
+                return response()->json([
+                    'data' => 'Notification sent',
+                ], 200);
+
+            }
+
+
 
         } catch(\Exception $e) {
             return response()->json([
