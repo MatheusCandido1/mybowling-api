@@ -14,6 +14,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RankingController;
+use App\Http\Controllers\RetrospectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/weekly/{week}', [DashboardController::class, 'weekly']);
         Route::get('/yearly/{year}', [DashboardController::class, 'yearly']);
         Route::get('/version', [DashboardController::class, 'version']);
+    });
+
+    Route::group(['prefix' => 'retrospect'], function () {
+        Route::get('/', [RetrospectController::class, 'index']);
     });
 
     Route::group(['prefix' => 'rankings'], function () {
